@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theme Color Selector</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .color-btn {
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>Select Your Preferred Background Color</h2>
+
+    <button class="color-btn" style="background-color: lightblue;" onclick="changeColor('lightblue')">Light Blue</button>
+    <button class="color-btn" style="background-color: lightgreen;" onclick="changeColor('lightgreen')">Light Green</button>
+    <button class="color-btn" style="background-color: lightcoral;" onclick="changeColor('lightcoral')">Light Coral</button>
+
+    <script>
+        // Function to change the background color and save the preference in localStorage
+        function changeColor(color) {
+            document.body.style.backgroundColor = color;
+            localStorage.setItem('bgColor', color);
+        }
+
+        // Retrieve the saved color from localStorage when the page loads
+        window.onload = function() {
+            const savedColor = localStorage.getItem('bgColor');
+            if (savedColor) {
+                document.body.style.backgroundColor = savedColor;
+            }
+        }
+    </script>
+</body>
+</html>

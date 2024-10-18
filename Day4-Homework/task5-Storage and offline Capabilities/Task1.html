@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Number Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        input {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #message {
+            margin-top: 20px;
+            font-size: 18px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Guess the Number!</h1>
+<p>I'm thinking of a number between 1 and 100.</p>
+<input type="number" id="guessInput" placeholder="Enter your guess" min="1" max="100">
+<button id="submitGuess">Submit Guess</button>
+<div id="message"></div>
+
+<script>
+    // Random number between 1 and 100
+    const randomNumber = Math.floor(Math.random() * 100) + 1;
+    let attempts = 0;
+
+    document.getElementById('submitGuess').addEventListener('click', function() {
+        const userGuess = parseInt(document.getElementById('guessInput').value);
+        attempts++;
+        const messageElement = document.getElementById('message');
+
+        if (userGuess === randomNumber) {
+            messageElement.textContent = `Congratulations! You guessed it in ${attempts} attempts!`;
+            messageElement.style.color = 'blue';
+        } else if (userGuess < randomNumber) {
+            messageElement.textContent = 'Too low! Try again.';
+        } else if (userGuess > randomNumber) {
+            messageElement.textContent = 'Too high! Try again.';
+        } else {
+            messageElement.textContent = 'Please enter a valid number.';
+        }
+
+        // Clear the input
+        document.getElementById('guessInput').value = '';
+        document.getElementById('guessInput').focus();
+    });
+</script>
+
+</body>
+</html>

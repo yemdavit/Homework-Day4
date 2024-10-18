@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Location</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        #map {
+            height: 400px;
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Your Current Location</h1>
+<button onclick="getLocation()">Show My Location</button>
+<p id="locationInfo"></p>
+<div id="map"></div>
+
+<script>
+    let map;
+
+    // Get the user's location
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition, showError);
+        } else {
+            document.getElementById("locationInfo").innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    // Show the position on the page and on Google Maps
+    function showPosition(position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+        document.getElementById("locationInfo").innerHTML = 
+            `Latitude: ${latitude}<br>Longitude: ${longitude}`;
+
+        // Initialize Google Maps
+        const mapOptions = {
+            zoom: 15,
+            center: { lat: latitude, lng: longitude }
+        };
+
+        map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+        // Add a marker to the map at the user's location
+        new google.maps.Marker({
+            position: { lat: latitude, lng: longitude },
+            map: map,
+            title: "You are here!"
+        });
+    }
+
+    // Handle errors
+    function showError(error) {
+        switch (error.code) {
+            case error.PERMISSION_DENIED:
+                document.getElementById("locationInfo").innerHTML = "User denied the request for Geolocation.";
+                break;
+            case error.POSITION_UNAVAILABLE:
+                document.getElementById("locationInfo").innerHTML = "Location information is unavailable.";
+                break;
+            case error.TIMEOUT:
+                document.getElementById("locationInfo").innerHTML = "The request to get user location timed out.";
+                break;
+            case error.UNKNOWN_ERROR:
+                document.getElementById("locationInfo").innerHTML = "An unknown error occurred.";
+                break;
+        }
+    }
+</script>
+
+<!-- Load the Google Maps API -->
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap">
+</script>
+
+</body>
+</html>
